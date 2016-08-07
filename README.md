@@ -1,4 +1,4 @@
-# Counter — counting characters and words in the text layer
+# Counter — counting characters and words in a text layer
 
 
 ![Counter](/counter-sketch-plugin_volorf.gif)
