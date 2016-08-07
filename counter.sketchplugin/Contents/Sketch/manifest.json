@@ -1,0 +1,25 @@
+{
+  "name": "Counter",
+  "description": "Counting characters and words in the text layer",
+  "author": "Oleg Frolov",
+  "authorEmail": "frolololeg@gmail.com",
+  "homepage": "https://github.com/Volorf/Counter",
+  "version": 1.0,
+  "identifier": "com.example.sketch.counter",
+  "compatibleVersion": 1,
+  "bundleVersion": 1,
+  "commands": [
+    {
+      "name": "Count",
+      "identifier": "count",
+      "shortcut": "ctrl shift c",
+      "script": "counter.js",
+      "handler": "countCharatersAndWordsInTheTextLayer"
+    }
+  ],
+  "menu": {
+    "items": [
+      "count"
+    ]
+  }
+}
