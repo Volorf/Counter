@@ -2,11 +2,29 @@ function countCharatersAndWordsInTheTextLayer(context) {
 
   var doc = context.document;
 
+  // Array for UTF-16
+  var arrUtf16 = []
+
+  // Convenient func
+  function checkForChar(charUtf16) {
+      var isItChar = false
+      if ((65 <= charUtf16) && (charUtf16 <= 90)) {
+        isItChar = true
+      } else if ((97 <= charUtf16) && (charUtf16 <= 122)) {
+        isItChar = true
+      } else if ((192 <= charUtf16) && (charUtf16 <= 382)) {
+        isItChar = true
+      } else if ((1024 <= charUtf16) && (charUtf16 <= 1327)) {
+        isItChar = true
+      }
+      return isItChar
+  }
+
   // Default amount of words
   var amountWords = 0;
 
   // Default amount of characters
-  var amountOfCharactersInLayer = 0
+  var amountOfCharactersInLayer = 0;
 
   // Alert
   var app = NSApplication.sharedApplication()
@@ -35,26 +53,29 @@ function countCharatersAndWordsInTheTextLayer(context) {
       // Contert text layer data to String
       var stringWeNeed = String(dataOfLayer)
 
+      // Super hack
+      stringWeNeed += "."
+
       // Define amount of characters of the layer's data
       amountOfCharactersInLayer = stringWeNeed.length
 
-      // Loop for define amount of words in the text layer data
-      for (var i = 1; i < amountOfCharactersInLayer; i++) {
-        if ((stringWeNeed[i] == " ") || (stringWeNeed[i] == "\n")) {
-          if (!(stringWeNeed[i-1] == " ") && !(stringWeNeed[i-1] =="\n")) {
-          amountWords += 1
-          }
-        }
-      }
-      if (!(stringWeNeed[amountOfCharactersInLayer-1] == " ") && !(stringWeNeed[amountOfCharactersInLayer-1] == "\n")) {
-        amountWords += 1
+      // Fill out arrUtf16
+      for (var i = 0; i < amountOfCharactersInLayer; i++) {
+        var utf16 = stringWeNeed.charCodeAt(i)
+        arrUtf16.push(Number(utf16))
       }
 
+      // Count amount of words in stringWeNeed
+      for (var j = 1; j < amountOfCharactersInLayer; j++) {
+        if ( (!(checkForChar(arrUtf16[j]))) && (checkForChar(arrUtf16[j-1]))  ) {
+        amountWords++
+        }
+      }
     }
   }
 
-  // Show a result
-  var result = "Characters: " + amountOfCharactersInLayer + "\n" + "Words: " + amountWords
+  // Show a result. Remember about the Super Hack
+  var result = "Characters: " + (amountOfCharactersInLayer - 1) + "\n" + "Words: " + amountWords
   app.displayDialog_withTitle(result, "Counter")
 
 }
